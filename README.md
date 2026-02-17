@@ -102,5 +102,3 @@ A collection of fundamental technical analysis indicators implemented in Pine Sc
 ## Disclaimer
 
 These indicators are provided for educational purposes only. They are not financial advice and should not be used as the sole basis for trading decisions. Always perform your own analysis and risk management.
-
----
