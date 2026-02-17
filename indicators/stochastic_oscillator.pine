@@ -11,10 +11,10 @@ source_high = input(high, title="High Source")
 source_low = input(low, title="Low Source")
 source_close = input(close, title="Close Source")
 
-higest_high = ta.highest(source_high, length)
+highest_high = ta.highest(source_high, length)
 lowest_low = ta.lowest(source_low, length)
 
-stoch_k = 100 * (source_close - lowest_low) / (higest_high - lowest_low)
+stoch_k = 100 * (source_close - lowest_low) / (highest_high - lowest_low)
 stoch_k_smoothed = ta.sma(stoch_k, k_smooth)
 stoch_d = ta.sma(stoch_k_smoothed, d_smooth)
 

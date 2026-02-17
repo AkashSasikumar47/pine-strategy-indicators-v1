@@ -1,121 +1,109 @@
-<div>
-  <h1>📈 Easy Indicators Beginner</h1>
-  <p>Welcome to the Easy-Indicators-Beginner repository! This collection of beginner-friendly technical indicators is designed to assist traders and stock market enthusiasts in understanding market trends and making informed decisions. These indicators are coded in Pine Script and are compatible with the TradingView platform.</p>
-</div>
+# Pine Strategy Indicators v1
 
-## 📊 Why Technical Indicators Matter?
+## Overview
 
-Technical indicators serve as critical components in the toolkit of traders and investors, facilitating a comprehensive analysis of price patterns, trends, and market dynamics. These indicators are essentially mathematical calculations based on historical price and volume data, designed to offer insights into potential market movements. Their significance lies in their ability to distill complex market information into visual and quantifiable metrics that traders can use to make informed decisions.
+A collection of fundamental technical analysis indicators implemented in Pine Script v5 for TradingView. These indicators provide clean, customizable implementations of commonly used trading tools including moving averages, oscillators, and volume analysis.
 
-One of the primary reasons technical indicators matter is their capacity to reveal underlying trends in price movements. By smoothing out short-term fluctuations and noise, indicators help traders identify the overarching direction a security or market is taking. This is particularly valuable for traders who seek to capitalize on trends, as it allows them to align their positions with the prevailing market sentiment.
-
-Additionally, technical indicators offer insights into momentum, which refers to the strength of a price trend. Momentum indicators, such as the Relative Strength Index (RSI) or Moving Average Convergence Divergence (MACD), provide traders with information about whether a trend is gaining or losing steam. This information is crucial for timing entry and exit points, as well as for gauging potential trend reversals.
-
-Volatility, another vital aspect of market behavior, is also addressed by technical indicators. Volatility indicators, like the Bollinger Bands, help traders assess the degree of price fluctuation in a given security. High volatility can signal heightened uncertainty and risk, while low volatility might suggest a calmer, more predictable market environment. Traders can adjust their strategies based on the prevailing volatility conditions to manage risk effectively.
-
-Technical indicators also contribute to the identification of potential reversal points. Reversal patterns, such as head and shoulders, double tops, and double bottoms, can indicate shifts in market sentiment and the potential end of an existing trend. When combined with other technical and fundamental analysis, these indicators offer traders a way to anticipate market turning points and adjust their positions accordingly.
-
-Furthermore, technical indicators provide a systematic framework for decision-making. By generating quantifiable data points, these indicators reduce reliance on gut feelings and emotional biases, allowing traders to adhere to a more disciplined approach. This is particularly valuable in high-stress trading environments where emotional decisions can lead to poor outcomes.
-
-In conclusion, technical indicators matter because they offer traders and investors a structured way to interpret market data, identify trends, assess momentum, analyze volatility, and predict potential reversal points. Through their utilization, traders can make more informed decisions, enhance their trading strategies, and ultimately strive for better trading outcomes. However, it's important to note that while technical indicators are powerful tools, they should be used in conjunction with other forms of analysis and not relied upon solely for making trading decisions.
-
-## 📈 Indicators Included
-
-The following indicators are included in this repository:
-
-- 📊 Trading Volume
-- 📈 Simple Moving Averages (SMA)
-- 📈 Exponential Moving Average (EMA)
-- 📉 Relative Strength Index (RSI)
-- 🔄 Stochastic Oscillator
-
-## 📋 Indicator Descriptions
+## Included Indicators
 
 ### Trading Volume
+
+**Purpose:** Displays relative volume compared to its moving average to identify abnormal trading activity.
+
+**Core Logic:** Calculates volume relative to its 20-period SMA and plots as a histogram. Bars are highlighted in green when volume exceeds the moving average (relative volume > 1).
+
+**Key Parameters:**
+- SMA Period: 20 (hardcoded, not user-configurable)
+
 ![Trading Volume](images/volume_chart.png)
 
-This indicator shows the number of shares or contracts traded over a given period. High volume can indicate increased interest in a security.
+**Typical Use Case:** Confirm breakouts or trend strength by identifying periods of above-average trading activity. High relative volume during price movements suggests conviction.
 
-**Use Case:**
-Trading volume can be used to confirm the strength of a trend. If prices are rising with high volume, it suggests strong buying interest, while falling prices with high volume indicate strong selling interest.
+---
 
-**How to Use:**
-To use the Trading Volume indicator, follow these steps:
-1. Observe the trading volume bars on the chart.
-2. Look for patterns where price movements align with high or low trading volumes.
-3. Analyze the relationship between price changes and volume to make trading decisions.
+### Simple Moving Average (SMA)
 
-### Simple Moving Averages (SMA)
+**Purpose:** Smooths price data to identify trend direction and potential support/resistance levels.
+
+**Core Logic:** Calculates the arithmetic mean of the selected price source over a configurable period. Uses TradingView's built-in `ta.sma()` function.
+
+**Key Parameters:**
+- Length: Period for averaging (default: 14)
+- Source: Price input (default: close)
+
 ![SMA](images/sma_chart.png)
 
-The Simple Moving Average calculates the average price over a specific number of periods.
+**Typical Use Case:** Identify trend direction via price-to-SMA relationship. Crossovers between price and SMA, or between multiple SMAs, generate potential entry/exit signals.
 
-**Use Case:**
-SMA helps in identifying trends in the price data. When the price is above the SMA, it suggests an uptrend, and when below, it suggests a downtrend.
-
-**How to Use:**
-To use the Simple Moving Average indicator, follow these steps:
-1. Choose a specific number of periods (e.g., 50, 200).
-2. Calculate the average closing price for that number of periods.
-3. Plot the SMA line on the price chart.
-4. Observe the relationship between price and the SMA line:
-   - When price crosses above SMA, it may indicate a buy signal.
-   - When price crosses below SMA, it may indicate a sell signal.
+---
 
 ### Exponential Moving Average (EMA)
+
+**Purpose:** Provides a trend indicator that responds more quickly to recent price changes than SMA.
+
+**Core Logic:** Applies exponential weighting to the selected price source, giving greater emphasis to recent data. Calculated using TradingView's `ta.ema()` function.
+
+**Key Parameters:**
+- Length: Period for EMA calculation (default: 14)
+- Source: Price input (default: close)
+
 ![EMA](images/ema_chart.png)
 
-Similar to SMA, EMA gives more weight to recent prices, making it more responsive to current market conditions.
+**Typical Use Case:** Suitable for fast-moving markets or shorter timeframes where responsiveness to recent price action is prioritized over smoothness.
 
-**Use Case:**
-EMA reacts more quickly to recent price changes, making it suitable for traders looking for signals in fast-moving markets.
-
-**How to Use:**
-To use the Exponential Moving Average indicator, follow these steps:
-1. Choose a specific number of periods (e.g., 10, 20).
-2. Calculate the EMA using a formula that gives more weight to recent prices.
-3. Plot the EMA line on the price chart.
-4. Pay attention to crossovers between the EMA and price:
-   - EMA crossing above price may indicate a buy signal.
-   - EMA crossing below price may indicate a sell signal.
+---
 
 ### Relative Strength Index (RSI)
+
+**Purpose:** Measures momentum by comparing the magnitude of recent gains to recent losses.
+
+**Core Logic:** Calculates RSI using TradingView's `ta.rsi()` function over a configurable period. Horizontal lines mark overbought and oversold thresholds.
+
+**Key Parameters:**
+- Length: Period for RSI calculation (default: 14)
+- Overbought Level: Upper threshold (default: 70)
+- Oversold Level: Lower threshold (default: 30)
+- Source: Price input (default: close)
+
 ![RSI](images/rsi_chart.png)
 
-RSI measures the speed and change of price movements. Values above 70 may indicate overbought conditions, while values below 30 may indicate oversold conditions.
+**Typical Use Case:** Identify potential reversal zones when RSI enters overbought or oversold territory. Divergences between price and RSI can signal trend weakness.
 
-**Use Case:**
-RSI helps identify potential reversal points when an asset is overbought or oversold.
-
-**How to Use:**
-To use the Relative Strength Index indicator, follow these steps:
-1. Calculate the RSI value based on recent price changes and a chosen period (e.g., 14).
-2. Typically, RSI values above 70 suggest overbought conditions, while values below 30 suggest oversold conditions.
-3. Look for divergence between RSI and price, which can signal potential reversals.
-4. Use RSI in conjunction with other indicators to make trading decisions.
+---
 
 ### Stochastic Oscillator
+
+**Purpose:** Compares the current closing price to its price range over a specified period to identify overbought/oversold conditions.
+
+**Core Logic:** Calculates %K by determining where the close sits relative to the high-low range over a lookback period. %K is smoothed with an SMA, and %D is an SMA of smoothed %K. Overbought and oversold levels are marked at 80 and 20.
+
+**Key Parameters:**
+- Stoch Length: Lookback period (default: 14)
+- %K Smoothing: SMA smoothing for %K (default: 3)
+- %D Smoothing: SMA smoothing for %D (default: 3)
+- High Source: Price input for high (default: high)
+- Low Source: Price input for low (default: low)
+- Close Source: Price input for close (default: close)
+
 ![Stochastic Oscillator](images/stochastic_chart.png)
 
-The Stochastic Oscillator helps identify potential overbought and oversold conditions with two lines (%K and %D).
+**Typical Use Case:** Identify potential reversal points when %K and %D are in extreme zones (>80 or <20). Crossovers between %K and %D lines generate buy/sell signals.
 
-**Use Case:**
-Stochastic Oscillator confirms potential reversal points identified by other indicators.
+---
 
-**How to Use:**
-To use the Stochastic Oscillator, follow these steps:
-1. Calculate the %K and %D lines using a specified period (e.g., 14) and recent price data.
-2. Values above 80 on %K suggest overbought conditions, while values below 20 suggest oversold conditions.
-3. Pay attention to crossovers between %K and %D lines for potential buy or sell signals.
-4. Use the Stochastic Oscillator in conjunction with other indicators for confirmation.
+## How to Use
 
-## 🚀 Usage and Instructions
+1. Open the TradingView platform and access the Pine Editor
+2. Copy the desired indicator code from the `/indicators` folder
+3. Paste into the Pine Editor and save
+4. Click "Add to Chart" to apply the indicator
+5. Adjust parameters via the indicator's settings panel as needed
 
-To use these indicators:
-1. Open the TradingView Pine Script editor.
-2. Copy the Pine Script code of the desired indicator from this repository.
-3. Paste the code in the Pine Script editor.
-4. Customize the indicator's parameters as needed.
-5. Apply the indicator to your chart to visualize its signals.
+## Disclaimer
 
-Feel free to explore, modify, and integrate these indicators into your trading strategies. Happy trading!
+These indicators are provided for educational purposes only. They are not financial advice and should not be used as the sole basis for trading decisions. Always perform your own analysis and risk management.
+
+---
+
+**Author:** Akash Sasikumar
+**License:** See [LICENSE](LICENSE) file
