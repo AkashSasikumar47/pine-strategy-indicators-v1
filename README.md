@@ -1,104 +1,92 @@
 # Pine Strategy Indicators v1
 
-## Overview
+Five open-source TradingView indicators written in Pine Script v6: Exponential Moving Average, Relative Strength Index, Simple Moving Average, Stochastic Oscillator and Trading Volume. Part of [GAINZ](https://gainz-trading-indicators.vercel.app), 35 indicators across seven collections.
 
-A collection of fundamental technical analysis indicators implemented in Pine Script v5 for TradingView. These indicators provide clean, customizable implementations of commonly used trading tools including moving averages, oscillators, and volume analysis.
+| Indicator                                                 | Type     | Script                                                                          |
+| --------------------------------------------------------- | -------- | ------------------------------------------------------------------------------- |
+| [Exponential Moving Average](#exponential-moving-average) | Trend    | [`exponential-moving-average.pine`](indicators/exponential-moving-average.pine) |
+| [Relative Strength Index](#relative-strength-index)       | Momentum | [`relative-strength-index.pine`](indicators/relative-strength-index.pine)       |
+| [Simple Moving Average](#simple-moving-average)           | Trend    | [`simple-moving-average.pine`](indicators/simple-moving-average.pine)           |
+| [Stochastic Oscillator](#stochastic-oscillator)           | Momentum | [`stochastic-oscillator.pine`](indicators/stochastic-oscillator.pine)           |
+| [Trading Volume](#trading-volume)                         | Volume   | [`trading-volume.pine`](indicators/trading-volume.pine)                         |
 
-## Included Indicators
+## Exponential Moving Average
 
-### Trading Volume
+![Exponential Moving Average](images/exponential-moving-average.png)
 
-**Purpose:** Displays relative volume compared to its moving average to identify abnormal trading activity.
+An average that gives recent prices more weight, so it turns sooner than a simple average.
 
-**Core Logic:** Calculates volume relative to its 20-period SMA and plots as a histogram. Bars are highlighted in green when volume exceeds the moving average (relative volume > 1).
+Price above a rising EMA is an uptrend in plain sight. Pair a short and a long one to trade the crossovers.
 
-**Key Parameters:**
-- SMA Period: 20 (hardcoded, not user-configurable)
+| Setting | Default |
+| ------- | ------- |
+| Length  | 14      |
+| Source  | Close   |
 
-![Trading Volume](images/volume_chart.png)
+## Relative Strength Index
 
-**Typical Use Case:** Confirm breakouts or trend strength by identifying periods of above-average trading activity. High relative volume during price movements suggests conviction.
+![Relative Strength Index](images/relative-strength-index.png)
 
----
+Weighs the size of recent gains against recent losses on a scale from 0 to 100.
 
-### Simple Moving Average (SMA)
+Above 70 is overbought, below 30 oversold. In strong trends it can stay there for a while, so watch for divergence too.
 
-**Purpose:** Smooths price data to identify trend direction and potential support/resistance levels.
+| Setting    | Default |
+| ---------- | ------- |
+| Length     | 14      |
+| Overbought | 70      |
+| Oversold   | 30      |
 
-**Core Logic:** Calculates the arithmetic mean of the selected price source over a configurable period. Uses TradingView's built-in `ta.sma()` function.
+## Simple Moving Average
 
-**Key Parameters:**
-- Length: Period for averaging (default: 14)
-- Source: Price input (default: close)
+![Simple Moving Average](images/simple-moving-average.png)
 
-![SMA](images/sma_chart.png)
+The plain average of the last 14 closes. Nothing more, nothing less.
 
-**Typical Use Case:** Identify trend direction via price-to-SMA relationship. Crossovers between price and SMA, or between multiple SMAs, generate potential entry/exit signals.
+Slow and steady. Use it to define the trend and to see where price keeps finding support.
 
----
+| Setting | Default |
+| ------- | ------- |
+| Length  | 14      |
+| Source  | Close   |
 
-### Exponential Moving Average (EMA)
+## Stochastic Oscillator
 
-**Purpose:** Provides a trend indicator that responds more quickly to recent price changes than SMA.
+![Stochastic Oscillator](images/stochastic-oscillator.png)
 
-**Core Logic:** Applies exponential weighting to the selected price source, giving greater emphasis to recent data. Calculated using TradingView's `ta.ema()` function.
+Shows where the close sits inside the recent high–low range, from 0 to 100.
 
-**Key Parameters:**
-- Length: Period for EMA calculation (default: 14)
-- Source: Price input (default: close)
+%K crossing %D above 80 or below 20 marks a likely turn. It shines in ranges; strong trends can pin it to the edges.
 
-![EMA](images/ema_chart.png)
+| Setting      | Default |
+| ------------ | ------- |
+| Length       | 14      |
+| %K smoothing | 3       |
+| %D smoothing | 3       |
 
-**Typical Use Case:** Suitable for fast-moving markets or shorter timeframes where responsiveness to recent price action is prioritized over smoothness.
+## Trading Volume
 
----
+![Trading Volume](images/trading-volume.png)
 
-### Relative Strength Index (RSI)
+Relative volume: each bar's volume divided by its 20-bar average, with busier-than-usual bars painted green on the chart.
 
-**Purpose:** Measures momentum by comparing the magnitude of recent gains to recent losses.
+Above 1 is more activity than normal. Breakouts on high relative volume tend to hold; moves on thin volume often fade.
 
-**Core Logic:** Calculates RSI using TradingView's `ta.rsi()` function over a configurable period. Horizontal lines mark overbought and oversold thresholds.
+| Setting   | Default  |
+| --------- | -------- |
+| Average   | SMA 20   |
+| Highlight | Above 1× |
 
-**Key Parameters:**
-- Length: Period for RSI calculation (default: 14)
-- Overbought Level: Upper threshold (default: 70)
-- Oversold Level: Lower threshold (default: 30)
-- Source: Price input (default: close)
+## How to use
 
-![RSI](images/rsi_chart.png)
-
-**Typical Use Case:** Identify potential reversal zones when RSI enters overbought or oversold territory. Divergences between price and RSI can signal trend weakness.
-
----
-
-### Stochastic Oscillator
-
-**Purpose:** Compares the current closing price to its price range over a specified period to identify overbought/oversold conditions.
-
-**Core Logic:** Calculates %K by determining where the close sits relative to the high-low range over a lookback period. %K is smoothed with an SMA, and %D is an SMA of smoothed %K. Overbought and oversold levels are marked at 80 and 20.
-
-**Key Parameters:**
-- Stoch Length: Lookback period (default: 14)
-- %K Smoothing: SMA smoothing for %K (default: 3)
-- %D Smoothing: SMA smoothing for %D (default: 3)
-- High Source: Price input for high (default: high)
-- Low Source: Price input for low (default: low)
-- Close Source: Price input for close (default: close)
-
-![Stochastic Oscillator](images/stochastic_chart.png)
-
-**Typical Use Case:** Identify potential reversal points when %K and %D are in extreme zones (>80 or <20). Crossovers between %K and %D lines generate buy/sell signals.
-
----
-
-## How to Use
-
-1. Open the TradingView platform and access the Pine Editor
-2. Copy the desired indicator code from the `/indicators` folder
-3. Paste into the Pine Editor and save
-4. Click "Add to Chart" to apply the indicator
-5. Adjust parameters via the indicator's settings panel as needed
+1. Open the indicator's `.pine` file in `indicators/` and copy the code.
+2. In TradingView, open the Pine Editor, paste the code and save it.
+3. Click **Add to chart**, then change the defaults in the indicator's settings.
 
 ## Disclaimer
 
-These indicators are provided for educational purposes only. They are not financial advice and should not be used as the sole basis for trading decisions. Always perform your own analysis and risk management.
+For learning and research. Indicators describe what price has done, not what it will do. Nothing here is financial advice.
+
+## License
+
+[MIT](LICENSE). Indicators based on someone else's work keep their original author's terms.
