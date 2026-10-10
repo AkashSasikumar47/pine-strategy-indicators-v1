@@ -1,0 +1,7 @@
+//@version=6
+indicator("Trading Volume", "RVOL", overlay = false)
+
+relativeVolume = volume / ta.sma(volume, 20)
+
+plot(relativeVolume, "Relative Volume", color.rgb(0, 100, 255), style = plot.style_histogram)
+barcolor(relativeVolume > 1 ? color.green : na)
