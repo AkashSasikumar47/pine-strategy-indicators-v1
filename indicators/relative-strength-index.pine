@@ -1,0 +1,11 @@
+//@version=6
+indicator("Relative Strength Index", "RSI", overlay = false)
+
+length = input.int(14, "Length", minval = 1)
+source = input.source(close, "Source")
+overbought = input.int(70, "Overbought")
+oversold = input.int(30, "Oversold")
+
+plot(ta.rsi(source, length), "RSI", color.green)
+hline(overbought, "Overbought", color.red)
+hline(oversold, "Oversold", color.green)

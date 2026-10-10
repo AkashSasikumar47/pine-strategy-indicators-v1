@@ -1,0 +1,19 @@
+//@version=6
+indicator("Stochastic Oscillator", "STOCH", overlay = false)
+
+length = input.int(14, "Length", minval = 1)
+kSmoothing = input.int(3, "%K Smoothing", minval = 1)
+dSmoothing = input.int(3, "%D Smoothing", minval = 1)
+highSource = input.source(high, "High Source")
+lowSource = input.source(low, "Low Source")
+closeSource = input.source(close, "Close Source")
+
+highestHigh = ta.highest(highSource, length)
+lowestLow = ta.lowest(lowSource, length)
+k = ta.sma(100 * (closeSource - lowestLow) / (highestHigh - lowestLow), kSmoothing)
+d = ta.sma(k, dSmoothing)
+
+plot(k, "%K", color.blue)
+plot(d, "%D", color.red)
+hline(80, "Overbought", color.red)
+hline(20, "Oversold", color.green)
